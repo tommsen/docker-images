@@ -1,4 +1,4 @@
-FROM martinhelmich/typo3
+FROM martinhelmich/typo3:8
 
 MAINTAINER thomas@visualworx.de
 
