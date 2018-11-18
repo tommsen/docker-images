@@ -5,7 +5,10 @@ services:
     ports:
         - "80:80"
     volumes:
-        - ./:/var/www/html
+#        - ./:/var/www/html
+        - fileadmin:/var/www/html/fileadmin
+        - typo3conf:/var/www/html/typo3conf
+        - uploads:/var/www/html/uploads
     environment:
       XDEBUG_CONFIG: remote_host=host.docker.internal
     networks:
@@ -27,8 +30,8 @@ services:
 volumes:
   database:
 #  ./:
-#  fileadmin:
-#  typo3conf:
-#  uploads:
+  fileadmin:
+  typo3conf:
+  uploads:
 networks:
   backend:
