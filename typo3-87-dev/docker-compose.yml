@@ -5,10 +5,12 @@ services:
     ports:
         - "80:80"
     volumes:
-#        - ./:/var/www/html
-        - fileadmin:/var/www/html/fileadmin
-        - typo3conf:/var/www/html/typo3conf
-        - uploads:/var/www/html/uploads
+#        - .:/var/www/html
+        - ./src:/var/www/html/typo3_src
+        - ./fileadmin:/var/www/html/fileadmin
+        - ./typo3conf:/var/www/html/typo3conf
+        - ./uploads:/var/www/html/uploads
+#    command: /var/www/html/download.sh
     environment:
       XDEBUG_CONFIG: remote_host=host.docker.internal
     networks:
@@ -25,13 +27,12 @@ services:
         - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
     networks:
         - backend
-#    volumes:
-#    - ./data:/var/lib/mysql
+    volumes:
+    - ./data:/var/lib/mysql
 volumes:
   database:
-#  ./:
-  fileadmin:
-  typo3conf:
-  uploads:
+#  fileadmin:
+#  typo3conf:
+#  uploads:
 networks:
   backend:

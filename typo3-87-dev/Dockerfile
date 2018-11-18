@@ -35,7 +35,7 @@ RUN apt-get update && \
 ENV TYPO3_CONTEXT Development
 
 RUN cd /var/www/html && \
-    wget -O - https://get.typo3.org/8.7 | tar -xzf - && \
+#    wget -O - https://get.typo3.org/8.7 | tar -xzf - && \
     ln -s typo3_src-* typo3_src && \
     ln -s typo3_src/index.php && \
     ln -s typo3_src/typo3 && \
@@ -44,7 +44,7 @@ RUN cd /var/www/html && \
     mkdir typo3conf && \
     mkdir fileadmin && \
     mkdir uploads && \
-    touch FIRST_INSTALL && \
+    #touch FIRST_INSTALL && \
     chown -R www-data. .
 
 # Configure volumes
