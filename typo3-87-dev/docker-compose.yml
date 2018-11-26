@@ -29,6 +29,7 @@ services:
         - backend
     volumes:
     - ./data:/var/lib/mysql
+    - ./db-import:/docker-entrypoint-initdb.d
 volumes:
   database:
 #  fileadmin:
