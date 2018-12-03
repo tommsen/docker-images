@@ -1,0 +1,35 @@
+version: '3'
+services:
+  shopware:
+    build: .
+    ports:
+        - "80:80"
+    volumes:
+        - .:/var/www/html
+#    command: /var/www/html/download.sh
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    networks:
+        - backend
+  database:
+    image: mysql:5.7
+    command:
+        - --character-set-server=utf8
+        - --collation-server=utf8_unicode_ci
+    environment:
+        - "MYSQL_USER=${MYSQL_USER:-shopware}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}"
+        - "MYSQL_DATABASE=${MYSQL_DATABASE:-shopware}"
+        - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+    networks:
+        - backend
+    volumes:
+    - ./data:/var/lib/mysql
+    - ./db-import:/docker-entrypoint-initdb.d
+volumes:
+  database:
+#  fileadmin:
+#  typo3conf:
+#  uploads:
+networks:
+  backend:
