@@ -1,11 +1,11 @@
 version: '3'
 services:
   typo3:
-    image: tommylau/php-5.2
+    image: kuborgh/php-5.2
     ports:
         - "80:80"
     volumes:
-        - .:/var/www
+        - .:/project
 #        - ./typo3_src:/var/www/html/typo3_src
 #        - ./fileadmin:/var/www/html/fileadmin
 #        - ./typo3conf:/var/www/html/typo3conf
