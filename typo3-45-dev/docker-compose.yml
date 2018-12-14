@@ -1,0 +1,42 @@
+version: '3'
+services:
+  typo3:
+    image: tommylau/php-5.2
+    ports:
+        - "80:80"
+    volumes:
+        - .:/var/www
+#        - ./typo3_src:/var/www/html/typo3_src
+#        - ./fileadmin:/var/www/html/fileadmin
+#        - ./typo3conf:/var/www/html/typo3conf
+#        - ./uploads:/var/www/html/uploads
+#        - ./typo3temp:/var/www/html/typo3temp
+#        - ./ljb:/var/www/html/ljb
+#    command: /var/www/html/download.sh
+    environment:
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+    networks:
+        - backend
+  database:
+    image: mysql:5.5
+    command:
+        - --character-set-server=utf8
+        - --collation-server=utf8_unicode_ci
+    environment:
+        - "MYSQL_USER=${MYSQL_USER:-typo3}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}"
+        - "MYSQL_DATABASE=${MYSQL_DATABASE:-typo3}"
+        - "MYSQL_ROOT_PASSWORD=password"
+# manually set set sql-mode="" in /etc/mysql/conf.d/docker.cnf for old distinct queries to work
+    networks:
+        - backend
+    volumes:
+    - ./data:/var/lib/mysql
+    - ./db-import:/docker-entrypoint-initdb.d
+volumes:
+  database:
+#  fileadmin:
+#  typo3conf:
+#  uploads:
+networks:
+  backend:
