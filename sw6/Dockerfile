@@ -47,7 +47,6 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" &&
 
 
 RUN cd /var/www/html && \
-    git clone https://github.com/shopware/development /var/www/html && \
     chown -R www-data. .
 
 # Configure volumes
