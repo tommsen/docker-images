@@ -3,6 +3,13 @@ LABEL maintainer="thomas@visualworx.de"
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        curl \
+        software-properties-common && \
+        apt-get install curl software-properties-common && \
+        curl -sL https://deb.nodesource.com/setup_13.x | bash -
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
         nano \
         wget \
         mysql-client \
