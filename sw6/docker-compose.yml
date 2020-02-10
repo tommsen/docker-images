@@ -21,6 +21,8 @@ services:
         - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}"
         - "MYSQL_DATABASE=${MYSQL_DATABASE:-shopware}"
         - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+        - "MYSQL_ROOT_PASSWORD=password"
+        - "MYSQL_ROOT_HOST=%"
     networks:
         - backend
     volumes:
