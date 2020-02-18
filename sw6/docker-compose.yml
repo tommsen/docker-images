@@ -6,7 +6,7 @@ services:
         - "80:80"
     volumes:
         - .:/var/www/html
-#    command: /var/www/html/download.sh
+    command: sh /var/www/html/download.sh
     environment:
       XDEBUG_CONFIG: remote_host=host.docker.internal
     networks:
@@ -20,7 +20,6 @@ services:
         - "MYSQL_USER=${MYSQL_USER:-shopware}"
         - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}"
         - "MYSQL_DATABASE=${MYSQL_DATABASE:-shopware}"
-        - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
         - "MYSQL_ROOT_PASSWORD=password"
         - "MYSQL_ROOT_HOST=%"
     networks:
@@ -30,7 +29,7 @@ services:
     - ./db-import:/docker-entrypoint-initdb.d
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
-    #container_name: phpmyadmin-sw6
+#    container_name: phpmyadmin-testsw
     environment:
 #      - PMA_ARBITRARY=1
       - PMA_HOST=database
