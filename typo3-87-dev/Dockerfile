@@ -4,6 +4,7 @@ LABEL maintainer="thomas@visualworx.de"
 # Install TYPO3
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        ssl-cert \
         wget \
         mysql-client \
 # Configure PHP
@@ -21,9 +22,11 @@ RUN apt-get update && \
     docker-php-ext-install -j$(nproc) mysqli soap gd zip opcache intl && \
     docker-php-ext-enable xdebug && \
     echo 'always_populate_raw_post_data = -1\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 32M\npost_max_size = 32M' > /usr/local/etc/php/conf.d/typo3.ini && \
-    echo "xdebug.remote_enable=1\nxdebug.max_nesting_level=400" >> /usr/local/etc/php/php.ini && \
+    echo "xdebug.remote_enable=1\nxdebug.max_nesting_level=1500\ncd xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/php.ini && \
 # Configure Apache as needed
     a2enmod rewrite && \
+    a2enmod ssl && \
+    a2ensite default-ssl && \
     apt-get clean && \
     apt-get -y purge \
         libxml2-dev libfreetype6-dev \
@@ -40,7 +43,7 @@ RUN cd /var/www/html && \
 #    ln -s typo3_src-* typo3_src && \
     ln -s typo3_src/index.php && \
     ln -s typo3_src/typo3 && \
-    ln -s typo3_src/_.htaccess .htaccess && \
+    ln -s typo3/sysext/install/Resources/Private/FolderStructureTemplateFiles/root-htaccess .htaccess && \
     mkdir typo3temp && \
     mkdir typo3conf && \
     mkdir fileadmin && \
