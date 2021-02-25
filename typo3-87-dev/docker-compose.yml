@@ -14,7 +14,9 @@ services:
         - ./typo3temp:/var/www/html/typo3temp
 #    command: /var/www/html/download.sh
     environment:
-      XDEBUG_CONFIG: remote_host=172.31.235.151
+#     put in .bashrc: export WSL_IP=`hostname -I | awk '{print $1}'`
+      XDEBUG_CONFIG: "client_host=${WSL_IP} client_port=9003 log=/var/www/html/typo3conf/xdebug.log"
+      PHP_IDE_CONFIG: "serverName=localhost"
     networks:
         - backend
   database:
