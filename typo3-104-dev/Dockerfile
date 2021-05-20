@@ -20,7 +20,7 @@ RUN apt-get update && \
 # Install xdebug
         pecl install xdebug-3.0.3 && \
 # Configure extensions
-    docker-php-ext-configure gd --with-jpeg=/usr/include/ --with-freetype=/usr/include/ && \
+    docker-php-ext-configure gd --with-jpeg --with-freetype && \
     docker-php-ext-install -j$(nproc) mysqli soap gd zip opcache intl && \
     docker-php-ext-enable xdebug && \
     echo 'always_populate_raw_post_data = -1\nmemory_limit=400M\nmax_execution_time = 240\nmax_input_vars = 1500\nupload_max_filesize = 32M\npost_max_size = 32M' > /usr/local/etc/php/conf.d/typo3.ini && \
