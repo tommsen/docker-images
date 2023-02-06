@@ -1,0 +1,52 @@
+version: '3'
+services:
+  typo3:
+    build: .
+    ports:
+        - "80:80"
+        - "443:443"
+    volumes:
+#        - .:/var/www/html
+        - ./typo3_src:/var/www/html/typo3_src
+        - ./fileadmin:/var/www/html/fileadmin
+        - ./typo3conf:/var/www/html/typo3conf
+        - ./uploads:/var/www/html/uploads
+        - ./typo3temp:/var/www/html/typo3temp
+#    command: /var/www/html/download.sh
+    environment:
+#     put in .bashrc: export WSL_IP=`hostname -I | awk '{print $1}'`
+      XDEBUG_CONFIG: "client_host=${WSL_IP} client_port=9000 log=/var/www/html/typo3conf/xdebug.log"
+      PHP_IDE_CONFIG: "serverName=localhost"
+    networks:
+        - backend_myhap
+  database:
+    image: mysql:5.7
+    command:
+        - --character-set-server=utf8
+        - --collation-server=utf8_unicode_ci
+        - --innodb-strict-mode=OFF
+        - --sql-mode=ONLY_FULL_GROUP_BY,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION
+    environment:
+        - "MYSQL_USER=${MYSQL_USER:-typo3}"
+        - "MYSQL_PASSWORD=${MYSQL_PASSWORD:-password}"
+        - "MYSQL_DATABASE=${MYSQL_DATABASE:-typo3}"
+        - "MYSQL_RANDOM_ROOT_PASSWORD=yes"
+    networks:
+        - backend_myhap
+    volumes:
+    - ./data:/var/lib/mysql
+    - ./db-import:/docker-entrypoint-initdb.d
+  mailcatcher:
+    image: schickling/mailcatcher
+    ports:
+      - '1080:1080'
+      - '1025:1025'
+    networks:
+      - backend_myhap
+volumes:
+  database:
+#  fileadmin:
+#  typo3conf:
+#  uploads:
+networks:
+  backend_myhap:
