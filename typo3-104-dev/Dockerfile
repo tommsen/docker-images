@@ -41,6 +41,11 @@ RUN apt-get update && \
 
 ENV TYPO3_CONTEXT Development
 
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --quiet && \
+    rm composer-setup.php && \
+    mv composer.phar /usr/local/bin/composer
+
 RUN cd /var/www/html && \
 #    wget --content-disposition https://get.typo3.org/10 | tar -xzf - && \
     ln -s typo3_src/index.php && \

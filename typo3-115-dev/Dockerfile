@@ -43,6 +43,11 @@ RUN apt-get update && \
 #        php-xdebug~=8.1 \
 
 ENV TYPO3_CONTEXT Development
+RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    php composer-setup.php --quiet && \
+    rm composer-setup.php && \
+    mv composer.phar /usr/local/bin/composer
+
 RUN cd /usr/local/etc/php && \
         wget https://curl.haxx.se/ca/cacert.pem
 RUN cd /var/www/html && \
